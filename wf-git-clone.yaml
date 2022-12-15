@@ -1,0 +1,30 @@
+---
+# Template to set build status in Bitbucket (aka sourcecode)
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: git-clone-
+spec:
+  entrypoint: git-clone
+  serviceAccountName: argo-workflows-sa
+  imagePullSecrets:
+    - name: jnj-artifactory
+  templates:
+    - name: git-checkout
+      inputs:
+        artifacts:
+          - name: source
+            path: /src
+            mode: 0755
+            recurseMode: true
+            git:
+              repo: "https://github.com/MatthiasRoels/argo-examples.git"
+              singleBranch: true
+              branch: "main"
+              revision: "{{`{{workflow.parameters.latest-commit}}`}}"
+      script:
+        image: jnj.artifactrepo.jnj.com/busybox:latest
+        command: ["bash"]
+        source: |
+          ls -lah
+        workingDir: /src
