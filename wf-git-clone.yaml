@@ -19,8 +19,6 @@ spec:
             recurseMode: true
             git:
               repo: "https://github.com/MatthiasRoels/argo-examples.git"
-              singleBranch: true
-              branch: "test"
               revision: "86d78983d2d789e19eb91734e1a8833cb2139fc8"
       script:
         image: jnj.artifactrepo.jnj.com/busybox:latest
